@@ -1,15 +1,13 @@
 package in.gokul.billingsoftware.io;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Builder
 @Data
 @RequiredArgsConstructor
 @AllArgsConstructor
+//@NoArgsConstructor
 public class CategoryRequest {
 
 

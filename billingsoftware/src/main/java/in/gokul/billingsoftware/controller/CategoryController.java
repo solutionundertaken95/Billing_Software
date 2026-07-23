@@ -6,7 +6,10 @@ import in.gokul.billingsoftware.service.impl.CategoryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import software.amazon.awssdk.thirdparty.jackson.core.JsonProcessingException;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -23,8 +26,13 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryResponse addCategory(@RequestBody CategoryRequest categoryRequest) {
-        return categoryService.add(categoryRequest);
+    public CategoryResponse addCategory(@RequestPart("category") String categoryString,
+                                        @RequestPart("file")MultipartFile file) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        CategoryRequest request = null;
+
+        request = objectMapper.readValue(categoryString,CategoryRequest.class);
+        return categoryService.add(request,file);
     }
 
     @GetMapping("/{name}")
